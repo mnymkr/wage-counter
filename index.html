@@ -1,0 +1,70 @@
+<script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+    }
+  }
+</script>
+
+<!--
+https://eugenkiss.github.io/7guis/tasks/#timer
+-->
+
+<script type="module">
+  import { createApp, ref, onUnmounted, computed } from 'vue'
+  createApp({
+    setup() {
+      const duration = ref(0)
+      let durationInMiliceconds = duration.value * 1000;
+      const elapsed = ref(0)
+      const elapsedTemp = ref(0)
+  
+      let lastTime
+      let handle
+  
+      const update = () => {
+        elapsedTemp.value = performance.now() - lastTime
+        if (elapsedTemp.value >= durationInMiliceconds.value) {
+          cancelAnimationFrame(handle)
+        } else { // if not done, update elapsed time and request another update
+          elapsed.value = elapsedTemp.value
+          handle = requestAnimationFrame(update)
+        }
+      }
+  
+      const reset = () => {
+        elapsedTemp.value = 0
+        elapsed.value = 0
+        lastTime = performance.now()
+        update()
+      }
+  
+      const progressRate = computed(() =>
+        Math.min(elapsed.value / duration.value, 1)
+      )
+  
+      reset()
+  
+      onUnmounted(() => {
+        cancelAnimationFrame(handle)
+      })
+      return {
+        duration,
+        elapsed,
+        progressRate,
+        reset
+      }
+    }
+  }).mount('#app')
+  </script>
+  
+  <div id="app">
+    <label
+      >Elapsed Time: <div>{{ elapsed }}s</div></label>
+    
+    <div>
+      Duration: <input v-model="duration"> {{ duration }} sec(s).
+    </div>
+  
+    <button @click="reset">Reset</button>
+  </div>

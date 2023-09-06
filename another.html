@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Another counter</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="main">
+    <h2>Wage counter</h2>
+    
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i></span>
+        <input class="form-control" type="number" id="rate" placeholder="Rate"/>
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+        <input class="form-control" type="number" id="duration" placeholder="Duration"/>
+    </div>
+
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> Enter wage rate and work duration to start.
+    </div>
+
+    <br>
+    <div class="progress w-100" id="progress-group">
+        <div id="progress-bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+        aria-valuemin="0" aria-valuemax="100" style="width:0%">
+        </div>
+    </div>
+    <p class="bg-info">So far you have earned: <span id="amount">0</span> VND</p>
+    <button class="btn btn-success" id="start" onclick="start()">Start</button>
+    <div class="btn-group-vertical">
+        <button type="button" class="btn btn-warning" id="pause" onclick="pause()">Pause</button>
+        <button type="button" class="btn btn-danger" id="stop" onclick="stop()">Stop</button>
+    </div>
+    
+	<script src="index.js"></script>
+  </body>
+</html>

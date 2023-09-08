@@ -1,14 +1,30 @@
-.main {
-    /* display: flex;
-    flex-direction: column; */
-    align-items: center;
-    padding: 20dvw;
-}
-
 .btn {
     min-width: 100px;
 }
 
+#btn-group-container {
+    align-items: end;
+}
+
 .container-sm {
-    max-width: 540px;
+    max-width: 768px;
+}
+
+.btn {
+width: 100%;
+}
+
+.dark-mode {
+    background-color: rgb(44, 44, 44);
+    color: rgb(229, 229, 229);
+}
+
+.dark-mode-jumbotron {
+    background-color: rgb(108, 108, 108);
+    color: rgb(229, 229, 229);
+}
+
+.form-control-dark-mode {
+    background-color: rgb(44, 44, 44);
+    color: rgb(229, 229, 229);
 }

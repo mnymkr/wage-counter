@@ -1,4 +1,7 @@
 const head = document.querySelector('#head');
+const body = document.body;
+
+// const inputGroup = document.querySelectorAll("input[type='text'] input[type='time']");
 
 const amount = document.querySelector('#amount');
 const progressBar = document.querySelector('#progress-bar'); 
@@ -12,6 +15,7 @@ const pauseButton = document.querySelector('#pause');
 
 const progressBarCheckbox = document.querySelector('#progress-bar-checkbox');
 const amountCheckbox = document.querySelector('#amount-checkbox');
+const darkModeCheckbox = document.querySelector('#dark-mode-checkbox');
 
 const progressGroup = document.querySelector('#progress-group');
 const info = document.querySelector('#info');
@@ -23,11 +27,24 @@ let _rate = 0;
 let isCounting = false;
 let lastTime;
 
+let isDarkMode = false;
+
 stopButton.style.display = 'none';
 pauseButton.style.display = 'none';
 
 alert.style.display = 'none';
 
+// TOGGLE DARK MODE
+darkModeCheckbox.addEventListener('change', () => {
+    body.classList.toggle("dark-mode");
+    info.classList.toggle("dark-mode-jumbotron");
+
+    // inputGroup.forEach((input) => {
+    //     input.classList.toggle("dark-mode-input-group");
+    // });
+});
+
+// TOGGLE AMOUNT BOX
 amountCheckbox.addEventListener('change', () => {
     if (amountCheckbox.checked) {
         info.style.display = 'block';
@@ -36,6 +53,7 @@ amountCheckbox.addEventListener('change', () => {
     }
 });
 
+// TOGGLE PROGRESS BAR
 progressBarCheckbox.addEventListener('change', () => {
     if (progressBarCheckbox.checked) {
         progressGroup.style.display = 'block';

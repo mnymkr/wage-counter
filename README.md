@@ -1,6 +1,5 @@
 # wage-counter
 This website calculates earnings in real time for you so that you can focus on making minimum wage.
-Built with Bootstrap 3, so expect less than modern looks and feels.
 
 New:
  - Added dark more for after hour grinding.

@@ -20,14 +20,14 @@ const darkModeCheckbox = document.querySelector('#dark-mode-checkbox');
 const progressGroup = document.querySelector('#progress-group');
 const info = document.querySelector('#info');
 
+let isDarkMode = false;
+
 let calculate = null;
 let _duration = 0;
 let _rate = 0;   
-
 let isCounting = false;
 let lastTime;
-
-let isDarkMode = false;
+let totalElapsed = 0;
 
 stopButton.style.display = 'none';
 pauseButton.style.display = 'none';
@@ -76,14 +76,12 @@ function _removeCommas(_obj){
     return _string;
 }
 
+// START BUTTON
 function start() {
     _duration = duration.value.split(':').reduce((acc, time) => (60 * acc) + +time);
-    _duration = _duration * 60 * 1000; // convert to miliseconds
-
+    _duration = _duration * 60 * 1000;
     _rate = Number.parseInt(Number.parseInt(_removeCommas(rate)));
 
-    // console.log(_duration);  
-    // CHECK IF DURATION AND RATE ARE VALID
     if (rate.value == 0 || _duration == 0) {
         alert.style.display = 'block';
         return;
@@ -96,39 +94,34 @@ function start() {
     
     isCounting = true;
     lastTime = performance.now();
-    elapsed = 0;
+    totalElapsed = 0;
     amount.innerHTML = 0;
-
-    // console.log('start');
 
     calculate = setInterval(() => {
         if (isCounting) {
-        
-            elapsed = performance.now() - lastTime; // in miliseconds
-            if (elapsed > _duration) { // finished counting
+            const now = performance.now();
+            totalElapsed += now - lastTime; // accumulate real time
+            lastTime = now;
+
+            if (totalElapsed > _duration) {
                 stop();
                 startButton.innerHTML = 'Restart';
             } else {
-                amount.innerHTML = Number.parseInt((_rate * (elapsed/1000/60/60)).toFixed(0)).toLocaleString(); // in hours
-
-                console.log(amount.innerHTML);
-
-                progressBar.style.width = (elapsed / (_duration) * 100).toFixed(0) + '%';
-
-                // console.log(rate.value * (elapsed/1000/60/60));
+                const currentAmount = (_rate * (totalElapsed / 1000 / 60 / 60));
+                amount.innerHTML = Number.parseInt(currentAmount.toFixed(0)).toLocaleString();
+                progressBar.style.width = (totalElapsed / _duration * 100).toFixed(0) + '%';
             }
         }
-    });
+    }, 100); // small delay so CPU isn’t overloaded
 }
 
 function stop() {
     isCounting = false;
+    clearInterval(calculate);
     startButton.style.display = 'block';
     startButton.innerHTML = 'Start';
     stopButton.style.display = 'none'; 
     pauseButton.style.display = 'none';
-
-    console.log('stop');
 }
 
 function pause() {
@@ -137,6 +130,7 @@ function pause() {
         pauseButton.innerHTML = 'Resume';
     } else {
         isCounting = true;
+        lastTime = performance.now(); // reset baseline to now
         pauseButton.innerHTML = 'Pause';
     }
 }
